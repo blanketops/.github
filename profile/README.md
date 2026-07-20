@@ -46,26 +46,6 @@ If a stage can't legally proceed, it **fails visibly** instead of being silently
 | [**environments-contract**](https://github.com/blanketops/environments-contract) | Canonical Go contracts shared across the platform's controllers and tooling. |
 | [**secure-software-supplychain**](https://github.com/blanketops/secure-software-supplychain) | A Kubebuilder operator that drives build → scan → sign → attest → publish on every push, via Tekton and Sigstore. *"Treat your pipeline as infrastructure, not a script."* |
 
-## How it fits together
-
-```
-   push to GitHub
-         │
-         ▼
-  environments-cli  ──installs──►  operator (from environments-install)
-                                          │
-                                          ▼
-                          reconciles environments-api CRDs
-                                          │
-                                          ▼
-   GitRepository → GitHubEvent → Build → Package → Deployment → ServiceUnit → Route → Domain
-                                          │
-                            (optionally) secure-software-supplychain
-                         scan → sign (cosign) → attest (Rekor/Fulcio) → publish
-```
-
-Every input — SDK, YAML, or event — normalizes into the same source of truth: a Custom Resource. A controller observes the change, the resolution engine validates and resolves intent deterministically, and status is reconciled back onto the resource. Same intent, same outcome, every time.
-
 ## Tech stack
 
 - **Language:** Go
