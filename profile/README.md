@@ -18,13 +18,23 @@ Treat deployment as governed state progression, not a pipeline you hope doesn't 
 
 ## What we're building
 
-Kubernetes delivery tooling accumulates entropy: pipelines quietly patch around failures, stages get skipped, and "it deployed" stops meaning "it's in the state you asked for." **BlanketOps Environments** is a Kubernetes-native delivery platform that fixes this by making every deployment a series of explicit, observable, governed state transitions:
+Kubernetes delivery tooling accumulates entropy: pipelines quietly patch around failures, stages get skipped, and "it deployed" stops meaning "it's in the state you asked for." Teams stitch together CI systems that don't know about deployments, ingress configs that don't know about certs, workload runners that don't know about environments.
 
-```
-GitRepository → GitHubEvent → BuildTrigger → Build → Deploy → Route → ServiceUnit
-```
+**BlanketOps Environments** fixes this by defining delivery as a set of composable, typed domain primitives — each owning a single concern, each reconciling toward a declared intent — instead of a pipeline:
 
-Each transition is enforced by a CRD contract. If a stage can't legally proceed, it **fails visibly** instead of being silently coerced into a "working" state. The result: code goes from IDE to production in minutes, with the drift and guesswork engineered out.
+| Primitive | Responsibility |
+|---|---|
+| `Environment` | Root of the delivery chain; secret-store authority |
+| `GitRepository` | Source binding; commit SHA resolution |
+| `GitHubEvent` | Webhook-driven trigger pipeline |
+| `Build` | Image build lifecycle; BuildRun orchestration |
+| `Package` | Artifact promotion and supply chain attestation |
+| `Deployment` | Workload rollout; ServiceUnit lifecycle |
+| `ServiceUnit` | Single workload declaration (image, port, size) |
+| `Route` | Workload-to-host binding; runtime materialisation |
+| `Domain` | TLS chain ownership; cert-manager + Knative bridge |
+
+If a stage can't legally proceed, it **fails visibly** instead of being silently coerced into a "working" state. The result: code goes from IDE to production in minutes, with the drift and guesswork engineered out.
 
 ## Repositories
 
@@ -48,11 +58,13 @@ Each transition is enforced by a CRD contract. If a stage can't legally proceed,
                           reconciles environments-api CRDs
                                           │
                                           ▼
-        GitRepository → BuildTrigger → Build → Deploy → Route → ServiceUnit
+   GitRepository → GitHubEvent → Build → Package → Deployment → ServiceUnit → Route → Domain
                                           │
                             (optionally) secure-software-supplychain
                          scan → sign (cosign) → attest (Rekor/Fulcio) → publish
 ```
+
+Every input — SDK, YAML, or event — normalizes into the same source of truth: a Custom Resource. A controller observes the change, the resolution engine validates and resolves intent deterministically, and status is reconciled back onto the resource. Same intent, same outcome, every time.
 
 ## Tech stack
 
