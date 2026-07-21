@@ -16,25 +16,6 @@ Entropy reduction through governed state progression.
 
 ---
 
-## What it does
-
-Two phases, one platform:
-
-1. **BlanketOps Environments** — turns a `git push` into a running, TLS-terminated Kubernetes service. Nine typed, composable primitives (`Environment`, `GitRepository`, `GitHubEvent`, `Build`, `Package`, `Deployment`, `ServiceUnit`, `Route`, `Domain`), each owning one concern and reconciling toward a declared intent instead of a script that quietly patches around failures. If a stage can't legally proceed, it fails visibly. → [`environments-cli`](https://github.com/blanketops/environments-cli)
-2. **Secure Software Supply Chain** — drives build → scan → sign → attest → publish on every push, via Tekton and Sigstore. Treats your pipeline as infrastructure, not a script. → [`secure-software-supplychain`](https://github.com/blanketops/secure-software-supplychain)
-
-Setup and usage for each are covered in their own repo's README — that's the source of truth, not this page.
-
-## Repositories
-
-| Repo | What it is |
-|---|---|
-| [**environments-cli**](https://github.com/blanketops/environments-cli) | Zero-dependency, single-binary Kubernetes bootstrapper for BlanketOps Environments. No `kubectl` required. Built for air-gapped, bare-metal, and immutable environments. |
-| [**environments-install**](https://github.com/blanketops/environments-install) | Declarative install manifests (CRDs, RBAC, controller-manager) as Kustomize overlays, published as a single `install.yaml` per release. |
-| [**environments-api**](https://github.com/blanketops/environments-api) | The canonical Kubernetes API contracts (CRDs) for BlanketOps Environments. |
-| [**environments-contract**](https://github.com/blanketops/environments-contract) | Canonical Go contracts shared across the platform's controllers and tooling. |
-| [**secure-software-supplychain**](https://github.com/blanketops/secure-software-supplychain) | A Kubebuilder operator for the Secure Software Supply Chain phase — build → scan → sign → attest → publish, via Tekton and Sigstore. |
-
 ## Tech stack
 
 - **Language:** Go
