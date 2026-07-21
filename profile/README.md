@@ -8,7 +8,7 @@
 
 Entropy reduction through governed state progression.
 
-[![docs](https://img.shields.io/badge/docs-senvironments.netlify.app-1f6feb)](https://bopsenvironments.netlify.app/)
+[![docs](https://img.shields.io/badge/docs-environments.netlify.app-1f6feb)](https://bopsenvironments.netlify.app/)
 [![CLI Install](https://img.shields.io/github/v/release/blanketops/environments-cli?label=environments-cli)](https://github.com/blanketops/environments-cli/releases/latest)
 [![License](https://img.shields.io/badge/license-see%20repos-lightgrey)](https://github.com/blanketops)
 
