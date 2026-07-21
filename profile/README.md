@@ -28,12 +28,6 @@ Entropy reduction through governed state progression.
 - **Infra orchestration:** Crossplane
 - **Secrets:** External Secrets Operator
 - **Supply chain security:** cosign, Sigstore (Fulcio/Rekor), Trivy, SLSA provenance attestation
-
-## Links
-
-- 🌐 Site: [blanketopsenvironments.netlify.app](https://blanketopsenvironments.netlify.app/)
-- 📦 All repos: [github.com/orgs/blanketops/repositories](https://github.com/orgs/blanketops/repositories)
-
 ---
 
 <div align="center">
